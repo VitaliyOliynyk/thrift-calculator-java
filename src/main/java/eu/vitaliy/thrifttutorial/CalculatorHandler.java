@@ -13,7 +13,7 @@ import thrift.calculator.Work;
 public class CalculatorHandler implements CalculatorService.Iface {
     @Override
     public int calculate(Work zadanie) throws TException {
-        Operation operacja = zadanie.getOperacja();
+        Operation operacja = zadanie.getOperation();
         switch (operacja) {
 
             case ADD:

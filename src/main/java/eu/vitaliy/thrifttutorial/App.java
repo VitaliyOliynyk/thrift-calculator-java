@@ -13,15 +13,19 @@ import thrift.calculator.CalculatorService;
 public class App 
 {
 
-    public static final int PORT = 12345;
+    public static final String DISCOVERY_HOST = "localhost";
+    public static final short DISCOVERY_PORT = 10001;
 
     public static void main( String[] args ) throws TTransportException {
-        TServerSocket serverTransport = new TServerSocket(PORT);
+        DiscoveryServiceClient discoveryServiceClient = new DiscoveryServiceClient(DISCOVERY_HOST, DISCOVERY_PORT);
+        short port = discoveryServiceClient.getPort();
+        //
+        TServerSocket serverTransport = new TServerSocket(port);
         CalculatorHandler calculatorHandler = new CalculatorHandler();
         CalculatorService.Processor<CalculatorHandler> processor = new CalculatorService.Processor<CalculatorHandler>(calculatorHandler);
         TServer server = new TThreadPoolServer(
                 new TThreadPoolServer.Args(serverTransport).processor(processor));
-        System.out.println("Starting server on port "+PORT+" ...");
+        System.out.println("Starting server on port " + port + " ...");
         server.serve();
     }
 }
