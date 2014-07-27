@@ -1,0 +1,3 @@
+[submodule "src/main/thrift/thrift-calculator-thrift"]
+	path = src/main/thrift/thrift-calculator-thrift
+	url = git@github.com:VitaliyOliynyk/thrift-calculator-thrift.git
