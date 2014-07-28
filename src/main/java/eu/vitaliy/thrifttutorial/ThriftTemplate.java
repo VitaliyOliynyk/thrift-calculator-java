@@ -5,24 +5,20 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
-import thrift.discoveryservice.DiscoveryService;
 
-import java.util.concurrent.Callable;
+public class ThriftTemplate {
 
-public class ThriftClient {
+    private String host;
+    private short port;
 
-    private String discoveryHost;
-    private short discoveryPort;
-    private TProtocol protocol;
-
-    public ThriftClient(String discoveryHost, short discoveryPort) {
-        this.discoveryHost = discoveryHost;
-        this.discoveryPort = discoveryPort;
+    public ThriftTemplate(String host, short port) {
+        this.host = host;
+        this.port = port;
     }
 
     public <Result> Result doInThrift(DoInThriftWork<Result> doInThriftWork) {
-        TTransport transport = new TSocket(discoveryHost, discoveryPort);
-        protocol = new TBinaryProtocol(transport);
+        TTransport transport = new TSocket(host, port);
+        TProtocol protocol = new TBinaryProtocol(transport);
         try {
             transport.open();
             Result result = doInThriftWork.doInThrift(protocol);
